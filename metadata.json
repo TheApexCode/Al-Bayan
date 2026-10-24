@@ -1,0 +1,6 @@
+{
+  "name": "Al-Bayan Islamic Companion",
+  "description": "Comprehensive Islamic web app with Prayer Times, Quran Reader, Dr. Israr Ahmed's Bayan-ul-Quran (Audio & Reading Tafseer), Qibla Compass, Hijri Calendar, and Zakat Calculator.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
