@@ -99,7 +99,8 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = ({
           location.latitude,
           location.longitude,
           method,
-          juristic
+          juristic,
+          location.timezone
         );
 
         const prayersToCheck: { name: string; key: keyof PrayerAlarmSettings; date: Date }[] = [
@@ -213,10 +214,19 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = ({
     location.latitude,
     location.longitude,
     method,
-    juristic
+    juristic,
+    location.timezone
   );
 
-  const nextInfo: NextPrayerInfo = getNextPrayerInfo(prayerTimes, currentTime);
+  const nextInfo: NextPrayerInfo = getNextPrayerInfo(
+    prayerTimes,
+    currentTime,
+    location.latitude,
+    location.longitude,
+    method,
+    juristic,
+    location.timezone
+  );
   const hijriDate = getHijriDate(currentTime);
 
   const handleDetectLocation = () => {
@@ -368,7 +378,7 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = ({
             </h1>
 
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-stone-500 dark:text-stone-400 pt-1">
-              <span>{currentTime.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <span>{currentTime.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: location.timezone || undefined })}</span>
               <span className="text-stone-300 dark:text-stone-700">·</span>
               <span className="font-medium text-stone-700 dark:text-stone-300">{hijriDate.formatted}</span>
               <span className="text-stone-300 dark:text-stone-700">·</span>
@@ -679,7 +689,7 @@ export const PrayerTimesView: React.FC<PrayerTimesViewProps> = ({
                 {Array.from({ length: 30 }).map((_, idx) => {
                   const d = new Date(currentTime);
                   d.setDate(idx + 1);
-                  const times = calculatePrayerTimes(d, location.latitude, location.longitude, method, juristic);
+                  const times = calculatePrayerTimes(d, location.latitude, location.longitude, method, juristic, location.timezone);
                   const isToday = d.getDate() === currentTime.getDate();
 
                   return (
